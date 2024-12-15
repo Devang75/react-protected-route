@@ -6,9 +6,12 @@
     box-sizing: border-box;
 }
 
-html {
+html, input[type="text"], input[type="password"], button, textarea {
     font-family: 'Nunito', sans-serif;
     font-size: 22px;
+}
+
+html {
     color: #fff;
 }
 
@@ -17,29 +20,30 @@ body {
     background-color: dodgerblue;
 }
 
-.App {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh; 
-  padding: 1rem 0.5rem;
+.App, .flexGrow {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 1rem 0.5rem;
+}
+
+section, form {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
 }
 
 section {
     width: 100%;
     max-width: 420px;
     min-height: 400px;
-    display: flex;
-    flex-direction: column;
     justify-content: flex-start;
-    padding: 1rem;
     background-color: rgba(0,0,0,0.4);
 }
 
 form {
-    display: flex;
-    flex-direction: column;
     justify-content: space-evenly;
     flex-grow: 1;
     padding-bottom: 1rem;
@@ -53,19 +57,16 @@ input[type="text"],
 input[type="password"],
 button,
 textarea {
-  font-family: 'Nunito', sans-serif;
-  font-size: 22px;
-  padding: 0.25rem;
-  border-radius: 0.5rem;
+    padding: 0.25rem;
+    border-radius: 0.5rem;
 }
 
-label,
-button {
-  margin-top: 1rem;
+label, button {
+    margin-top: 1rem;
 }
 
 button {
-  padding: 0.5rem;
+    padding: 0.5rem;
 }
 
 .instructions {
@@ -91,14 +92,16 @@ button {
     display: none;
 }
 
+.valid, .invalid {
+    margin-left: 0.25rem;
+}
+
 .valid {
     color: limegreen;
-    margin-left: 0.25rem;
 }
 
 .invalid {
     color: red;
-    margin-left: 0.25rem;
 }
 
 .errmsg {
@@ -115,7 +118,6 @@ button {
 
 .flexGrow {
     flex-grow: 1;
-    display: flex;
     justify-content: flex-start;
     align-items: flex-end;
 }

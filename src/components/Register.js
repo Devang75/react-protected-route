@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useCallback } from "react";
 import { faCheck, faTimes, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from '../api/axios';
@@ -29,24 +29,23 @@ const Register = () => {
 
     useEffect(() => {
         userRef.current.focus();
-    }, [])
+    }, []);
 
     useEffect(() => {
         setValidName(USER_REGEX.test(user));
-    }, [user])
+    }, [user]);
 
     useEffect(() => {
         setValidPwd(PWD_REGEX.test(pwd));
         setValidMatch(pwd === matchPwd);
-    }, [pwd, matchPwd])
+    }, [pwd, matchPwd]);
 
     useEffect(() => {
         setErrMsg('');
-    }, [user, pwd, matchPwd])
+    }, [user, pwd, matchPwd]);
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = useCallback(async (e) => {
         e.preventDefault();
-        // if button enabled with JS hack
         const v1 = USER_REGEX.test(user);
         const v2 = PWD_REGEX.test(pwd);
         if (!v1 || !v2) {
@@ -61,25 +60,22 @@ const Register = () => {
                     withCredentials: true
                 }
             );
-            // TODO: remove console.logs before deployment
-            console.log(JSON.stringify(response?.data));
-            //console.log(JSON.stringify(response))
             setSuccess(true);
-            //clear state and controlled inputs
             setUser('');
             setPwd('');
             setMatchPwd('');
         } catch (err) {
+            const status = err.response?.status;
             if (!err?.response) {
                 setErrMsg('No Server Response');
-            } else if (err.response?.status === 409) {
+            } else if (status === 409) {
                 setErrMsg('Username Taken');
             } else {
-                setErrMsg('Registration Failed')
+                setErrMsg('Registration Failed');
             }
             errRef.current.focus();
         }
-    }
+    }, [user, pwd, matchPwd]);
 
     return (
         <>
@@ -87,7 +83,7 @@ const Register = () => {
                 <section>
                     <h1>Success!</h1>
                     <p>
-                        <a href="#">Sign In</a>
+                        <Link to="/login">Sign In</Link>
                     </p>
                 </section>
             ) : (
@@ -120,7 +116,6 @@ const Register = () => {
                             Letters, numbers, underscores, hyphens allowed.
                         </p>
 
-
                         <label htmlFor="password">
                             Password:
                             <FontAwesomeIcon icon={faCheck} className={validPwd ? "valid" : "hide"} />
@@ -144,7 +139,6 @@ const Register = () => {
                             Allowed special characters: <span aria-label="exclamation mark">!</span> <span aria-label="at symbol">@</span> <span aria-label="hashtag">#</span> <span aria-label="dollar sign">$</span> <span aria-label="percent">%</span>
                         </p>
 
-
                         <label htmlFor="confirm_pwd">
                             Confirm Password:
                             <FontAwesomeIcon icon={faCheck} className={validMatch && matchPwd ? "valid" : "hide"} />
@@ -166,18 +160,18 @@ const Register = () => {
                             Must match the first password input field.
                         </p>
 
-                        <button disabled={!validName || !validPwd || !validMatch ? true : false}>Sign Up</button>
+                        <button disabled={!validName || !validPwd || !validMatch}>Sign Up</button>
                     </form>
                     <p>
                         Already registered?<br />
                         <span className="line">
-                            <Link to="/">Sign In</Link>
+                            <Link to="/login">Sign In</Link>
                         </span>
                     </p>
                 </section>
             )}
         </>
-    )
-}
+    );
+};
 
-export default Register
+export default Register;

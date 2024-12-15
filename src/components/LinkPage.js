@@ -1,20 +1,34 @@
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
 
 const LinkPage = () => {
+    const publicLinks = [
+        { to: "/login", label: "Login" },
+        { to: "/register", label: "Register" },
+    ];
+
+    const privateLinks = [
+        { to: "/", label: "Home" },
+        { to: "/editor", label: "Editors Page" },
+        { to: "/admin", label: "Admin Page" },
+    ];
+
     return (
         <section>
             <h1>Links</h1>
-            <br />
             <h2>Public</h2>
-            <Link to="/login">Login</Link>
-            <Link to="/register">Register</Link>
-            <br />
+            <div>
+                {publicLinks.map(({ to, label }) => (
+                    <Link key={to} to={to}>{label}</Link>
+                ))}
+            </div>
             <h2>Private</h2>
-            <Link to="/">Home</Link>
-            <Link to="/editor">Editors Page</Link>
-            <Link to="/admin">Admin Page</Link>
+            <div>
+                {privateLinks.map(({ to, label }) => (
+                    <Link key={to} to={to}>{label}</Link>
+                ))}
+            </div>
         </section>
-    )
-}
+    );
+};
 
-export default LinkPage
+export default LinkPage;
